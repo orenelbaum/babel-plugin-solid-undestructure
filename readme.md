@@ -96,7 +96,7 @@ Default: false
 
 Controls whether object methods will be transformed or not.
 
-`classMethod``
+`classMethod`
 
 Type: boolean
 
