@@ -1,0 +1,12 @@
+{
+	"name": "babel-plugin-solid-undestructure",
+	"version": "0.0.2",
+	"description": "",
+	"main": "src/index.js",
+	"scripts": {
+		"build-lib": "tsc ./src/lib/index.ts --outDir ./dist/lib",
+		"build-example": "webpack --entry ./src/example/index.jsx -o ./dist/example"
+	},
+	"keywords": ["babel-plugin", "solid", "solid-js"],
+	"license": "MIT"
+}
