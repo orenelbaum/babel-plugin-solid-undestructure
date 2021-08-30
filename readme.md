@@ -11,7 +11,7 @@ The plugin will "un-destructure" your props at build time, so the code you pass 
 Install the plugin with 
 
 ```sh
-npm i -D babel-plugin-solid-undestructure`
+npm i -D babel-plugin-solid-undestructure
 ```
 
 In your vite config, find the your vite-plugin-solid initialization.
