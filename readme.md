@@ -68,7 +68,7 @@ The options control which types of functions will be transformed and which types
 
 Type: boolean
 
-Default: false
+Default: true
 
 Controls whether function declarations will be transformed or not.
 
@@ -76,13 +76,13 @@ Controls whether function declarations will be transformed or not.
 
 Type: boolean
 
-Default: false
+Default: true
 
 Controls whether arrow functions will be transformed or not.
 
 `functionExpression`
 
-Type: boolean
+Type: true
 
 Default: false
 
