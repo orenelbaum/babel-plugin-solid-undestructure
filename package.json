@@ -1,6 +1,6 @@
 {
 	"name": "babel-plugin-solid-undestructure",
-	"version": "0.0.3",
+	"version": "0.0.6",
 	"description": "",
 	"main": "src/index.js",
 	"keywords": ["babel", "babel-plugin", "solid", "solid-js"],
