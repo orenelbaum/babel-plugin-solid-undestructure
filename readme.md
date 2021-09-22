@@ -97,7 +97,7 @@ Add this to the top of the plugin list in your Vite config:
     ...babel({
         plugins: [
             ["@babel/plugin-syntax-typescript", { isTSX: true }],
-            "./src/lib/babel-plugin-undestructure.js",
+            "babel-plugin-solid-undestructure",
         ],
         extensions: [".tsx"]
     }),
@@ -111,7 +111,7 @@ If you want this plugin to work with `.ts` files as well, add this this to the t
     ...babel({
         plugins: [
             "@babel/plugin-syntax-typescript",
-            "./src/lib/babel-plugin-undestructure.js",
+            "babel-plugin-solid-undestructure",
         ],
         extensions: [".ts"]
     }),
