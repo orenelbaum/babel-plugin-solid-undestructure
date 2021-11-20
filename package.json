@@ -1,12 +1,28 @@
 {
 	"name": "babel-plugin-solid-undestructure",
-	"version": "0.0.6",
-	"description": "",
-	"main": "src/index.js",
-	"keywords": ["babel", "babel-plugin", "solid", "solid-js"],
+	"version": "0.0.7",
+	"main": "index.cjs",
+	"module": "index.js",
+	"types": "index.d.ts",
+	"type": "module",
+	"peerDependencies": {
+		"solid-js": "^1.2.4"
+	},
+	"dependencies": {
+		"@rollup/plugin-babel": "^5.3.0"
+	},
+	"description": "A Babel plugin for SolidJS that allows you to destructure component props without losing reactivity.",
+	"keywords": [
+		"babel",
+		"babel-plugin",
+		"solid",
+		"solid-js",
+		"undestructure"
+	],
 	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/orenelbaum/babel-plugin-solid-undestructure"
-	}
+	},
+	"author": "Oren Elbaum"
 }
