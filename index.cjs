@@ -51,8 +51,9 @@ const functionVisitor = types => (path, { opts }) => {
 			if (importSpecifier?.imported?.name !== "component") return
 
 			if (wrappingFunctionBinding.path.parent?.source?.value !== 'babel-plugin-solid-undestructure') return
-			wrappingFunctionBinding.path.parentPath.remove()
-      	path.parentPath.replaceWith(path)
+			if (wrappingFunctionBinding.references === 1) wrappingFunctionBinding.path.parentPath.remove()
+         	else wrappingFunctionBinding.references--
+      		path.parentPath.replaceWith(path)
 		}
 	}
 
