@@ -12,7 +12,7 @@ This plugin is in early development and it's not recommended for use in producti
 ## TypeScript mode
 
 The TypeScript mode is the mode used by default.
-It transforms all arrow components which are part of a variable declaration with a `Component` type annotation.
+It transforms all arrow function components which are part of a variable declaration with a `Component` type annotation.
 
 The type annotation must be a direct reference to the Solid `Component` type import, or an annotation of the form `Solid.Component` where `Solid` is a reference to the default import of Solid.
 
