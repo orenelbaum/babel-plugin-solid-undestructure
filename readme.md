@@ -129,3 +129,9 @@ babel: {
 	plugins: [undestructurePlugin("vanilla-js")]
 } 
 ```
+
+
+## Roadmap
+
+- Rest element destructuring (`({ propA, propB, ...otherProps }) => ...`) with `splitProps`
+- Nested destructuring
