@@ -1,3 +1,6 @@
+const { babel } = require("@rollup/plugin-babel")
+
+
 function addImportDeclarationToProgram(types, program, specifier, imported, source) {
 	program.node.body.unshift(
 		types.importDeclaration(
@@ -18,15 +21,43 @@ function addStatementToFunction(types, path, statement) {
 	}
 }
 
+function getMergePropsUniqueName(types, path, program) {
+	let mergePropsUniqueName
+	// Look for `mergeProps` import
+	program.traverse({
+		ImportDeclaration(path) {
+			if (path.node.source.value !== "solid-js") return
+			for (const specifier of path.node.specifiers)
+				if (
+					specifier.imported
+					&& specifier.imported.name === "mergeProps"
+					&& specifier.local.unique
+				) {
+					mergePropsUniqueName = specifier.local
+					return
+				}
+		}
+	})
+            
+	// If not found, create one
+	if (!mergePropsUniqueName) {
+		mergePropsUniqueName = program.scope.generateUidIdentifier("mergeProps")
+		mergePropsUniqueName.unique = true
+		addImportDeclarationToProgram(types, program, mergePropsUniqueName, "mergeProps", "solid-js")
+	}
+  
+    return mergePropsUniqueName
+}
+
 const functionVisitor = types => (path, { opts }) => {
 	{
 		const { mode = 'vanilla-js' } = opts
-		
+        
 		if (mode !== 'ts' && mode !== 'vanilla-js')
 			throw new Error("babel-plugin-solid-undestructure error: Invalid configuration - mode must be either 'ts' or 'vanilla-js'.")
 
 		const type = path.type
-		
+      
 		if (mode === 'ts') {
 			if (type !== "ArrowFunctionExpression") return
 			if (path.parent.type !== "VariableDeclarator") return
@@ -74,84 +105,70 @@ const functionVisitor = types => (path, { opts }) => {
 		}
 	}
 
+	let mergePropsUniqueName
+	let defaultPropsObject = types.objectExpression([])
+    
 	let firstParam = path.node.params[0]
 	if (
-		!firstParam
-		|| (
-			firstParam.type !== "ObjectPattern"
-			&& firstParam.type !== "AssignmentPattern"
+    	!firstParam
+    	|| (
+        	firstParam.type !== "ObjectPattern"
+        	&& (
+            	firstParam.type !== "AssignmentPattern"
+            	|| firstParam.left.type !== "ObjectPattern"
+            )
 		)
 	) return
-
+  
+  	const program = path.findParent(path => path.isProgram())
+	const newPropsIdentifier = program.scope.generateUidIdentifier("props")
+  
 	let defaultPropsWhole = types.objectExpression([])
 	if (firstParam.type == "AssignmentPattern") {
 		defaultPropsWhole = firstParam.right
 		firstParam = firstParam.left
+      
+     	mergePropsUniqueName = getMergePropsUniqueName(types, path, program)
+
+		const callExpression = types.callExpression(mergePropsUniqueName, [defaultPropsWhole, defaultPropsObject, newPropsIdentifier])
+		const assignmentStatement = types.expressionStatement(types.assignmentExpression("=", newPropsIdentifier, callExpression))
+		addStatementToFunction(types, path, assignmentStatement)
 	}
-	
-	const program = path.findParent(path => path.isProgram())
-	const newPropsIdentifier = program.scope.generateUidIdentifier("props")
 	
 	const propsDestructredProperties = firstParam.properties
 	const componentScopeBindings = path.scope.bindings
-	
-	let defaultPropsObject
-	
+    
 	for (const DestructredProperty of propsDestructredProperties) {
 		if (DestructredProperty.type === "RestElement") throw new Error("babel-plugin-solid-undestructure error: Rest elements are not supported.")
 		if (
-			(
+        	(
 				// Nested destructuring
-				DestructredProperty.value.type !== "Identifier"
-				&& DestructredProperty.value.type !== "AssignmentPattern"
+        		DestructredProperty.value.type !== "Identifier"
+        		&& DestructredProperty.value.type !== "AssignmentPattern"
 			)
-			|| (
+        	|| (
 				// Nested destructuring + default value
 				DestructredProperty.value.type !== "Identifier"
 				&& DestructredProperty.value.left.type !== "Identifier"
 			)
 		)
-			throw new Error("babel-plugin-solid-undestructure error: Nested destructuring is not supported.")
-		
+        	throw new Error("babel-plugin-solid-undestructure error: Nested destructuring is not supported.")
+      
 		// Handle default props
 		if (DestructredProperty.value.type === "AssignmentPattern") {
-			if (!defaultPropsObject) {
-			// Look for `mergeProps` import
-				let mergePropsUniqueName
-				program.traverse({
-					ImportDeclaration(path) {
-						if (mergePropsUniqueName || path.node.source.value !== "solid-js") return
-						for (const specifier of path.node.specifiers)
-							if (
-								specifier.imported
-								&& specifier.imported.name === "mergeProps"
-								&& specifier.local.unique
-							) {
-								mergePropsUniqueName = specifier.local
-								return
-							}
-					}
-				})
-			
-				// If not found, create one
-				if (!mergePropsUniqueName) {
-					mergePropsUniqueName = program.scope.generateUidIdentifier("mergeProps")
-					mergePropsUniqueName.unique = true
-					addImportDeclarationToProgram(types, program, mergePropsUniqueName, "mergeProps", "solid-js")
-				}
+			if (!mergePropsUniqueName) {
+        		mergePropsUniqueName = getMergePropsUniqueName(types, path, program)
 
-				defaultPropsObject = types.objectExpression([types.objectProperty(DestructredProperty.value.left ,DestructredProperty.value.right)])
 				const callExpression = types.callExpression(mergePropsUniqueName, [defaultPropsWhole, defaultPropsObject, newPropsIdentifier])
 				const assignmentStatement = types.expressionStatement(types.assignmentExpression("=", newPropsIdentifier, callExpression))
 				addStatementToFunction(types, path, assignmentStatement)
 			}
-			
-			else defaultPropsObject.properties.push(types.objectProperty(DestructredProperty.value.left ,DestructredProperty.value.right))
+        
+			defaultPropsObject.properties.push(types.objectProperty(DestructredProperty.value.left ,DestructredProperty.value.right))
 		}
-		
+      
 		const DestructredKeyIdentifier = DestructredProperty.key
-		const undestructuredPropExpression = 
-			types.memberExpression(newPropsIdentifier, DestructredKeyIdentifier)
+		const undestructuredPropExpression =  types.memberExpression(newPropsIdentifier, DestructredKeyIdentifier)
 		
 		const DestructredName = DestructredProperty.value.name || DestructredProperty.value.left.name
 
@@ -165,12 +182,12 @@ const functionVisitor = types => (path, { opts }) => {
 		for (const constantViolation of constantViolations)
 			constantViolation.node && (constantViolation.node.left = undestructuredPropExpression)
 	}
-  
+ 
 	path.node.params[0] = newPropsIdentifier
 }
- 
- 
- module.exports = function babelPluginUndestructure ({ types }) {
+
+
+module.exports = function babelPluginUndestructure ({ types }) {
 	const visitor = {
 		FunctionDeclaration: functionVisitor(types),
 		FunctionExpression: functionVisitor(types),
