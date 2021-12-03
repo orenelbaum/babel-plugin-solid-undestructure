@@ -1,4 +1,4 @@
-# babel-plugin-solid-undestrcture
+# babel-plugin-solid-undestructure
 
 <p align="center">
   <img
