@@ -1,13 +1,5 @@
 # babel-plugin-solid-undestructure
 
-<p align="center">
-  <img
-    src="https://github.com/orenelbaum/babel-plugin-solid-undestructure/blob/main/example.png?raw=true"
-    alt="Usage example"
-    style="width: 80%; height: auto;"
-  />
-</p>
-
 This babel plugin allows you to destructure your props in your Solid components without losing reactivity.
 
 The plugin will "un-destructure" your props at build time, so the code you pass into the Solid compiler will not have destructured props at runtime. Instead the props will be accessed the normal way with `props.someProp`.
@@ -15,6 +7,46 @@ The plugin will "un-destructure" your props at build time, so the code you pass 
 This plugin has two modes: TypeScript mode and vanilla JavaScript mode.
 
 This plugin is in early development and it's not recommended for use in production.
+
+Usage example:
+
+```jsx
+// Use the `Component` type to mark components that will be transformed by the plugin.
+
+// Plugin input:
+import { Component } from 'solid-js'
+const MyComp: Component<...> = ({ a, b, c }) => {a; b; c;}
+
+// Plugin output:
+import { Component } from 'solid-js'
+const MyComp: Component<...> = props => {props.a; props.b; props.c;}
+
+
+// You can use a compile time function instead of using the `Component` type (works with vanilla JS).
+
+// Plugin input:
+import { component } from 'babel-plugin-solid-undestructure'
+const MyComp = component(({ a, b, c }) => {a; b; c;})
+
+// Plugin output:
+const MyComp = props => {props.a; props.b; props.c;}
+
+
+// You can use default props.
+
+// Plugin input:
+import { Component } from 'solid-js'
+const MyComp: Component<...> = (
+  { a = 1, b = 2, c = 3 } = defaultProps
+) => {a; b; c;}
+
+// Plugin output:
+import { Component, mergeProps } from 'solid-js'
+const MyComp: Component<...> = props => {
+  props = mergeProps(defaultProps, { a: 1, b: 2, c: 3 }, props)
+  props.a; props.b; props.c;
+}
+```
 
 
 ## TypeScript mode
