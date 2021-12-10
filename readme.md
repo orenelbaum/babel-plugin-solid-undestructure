@@ -138,7 +138,7 @@ npm i -D babel-plugin-solid-undestructure
 In your Vite config, import `undestructurePlugin` from `babel-plugin-solid-undestructure`
 
 ```js
-import { undestructurePlugin } from "undestructure-exp"
+import { undestructurePlugin } from "babel-plugin-solid-undestructure"
 ```
 
 ### TypeScript mode
