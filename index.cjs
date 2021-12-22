@@ -51,7 +51,7 @@ function getMergePropsUniqueName(types, path, program) {
 
 const functionVisitor = types => (path, { opts }) => {
 	{
-		const { mode = 'vanilla-js' } = opts
+		const { mode = 'ts' } = opts
         
 		if (mode !== 'ts' && mode !== 'vanilla-js')
 			throw new Error("babel-plugin-solid-undestructure error: Invalid configuration - mode must be either 'ts' or 'vanilla-js'.")
