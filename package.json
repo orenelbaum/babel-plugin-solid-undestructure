@@ -1,6 +1,6 @@
 {
 	"name": "babel-plugin-solid-undestructure",
-	"version": "0.0.10",
+	"version": "0.0.11",
 	"main": "index.cjs",
 	"module": "index.js",
 	"types": "index.d.ts",
