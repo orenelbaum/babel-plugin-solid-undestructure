@@ -4,55 +4,82 @@ This babel plugin allows you to destructure your props in your Solid components 
 
 The plugin will "un-destructure" your props at build time, so the code you pass into the Solid compiler will not have destructured props at runtime. Instead the props will be accessed the normal way with `props.someProp`.
 
-This plugin has two modes: TypeScript mode and vanilla JavaScript mode.
-
-This plugin is in early development and it's not recommended for use in production.
-
-Usage example:
+Usage with examples:
 
 ```jsx
 // Use the `Component` type to mark components that will be transformed by the plugin.
 
-// Plugin input:
 import { Component } from 'solid-js'
 const MyComp: Component<...> = ({ a, b, c }) => {a; b; c;}
 
-// Plugin output:
+//  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
+
 import { Component } from 'solid-js'
 const MyComp: Component<...> = props => {props.a; props.b; props.c;}
 
 
 // You can use a compile time function instead of using the `Component` type (works with vanilla JS).
 
-// Plugin input:
 import { component } from 'babel-plugin-solid-undestructure'
 const MyComp = component(({ a, b, c }) => {a; b; c;})
 
-// Plugin output:
+//  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
+
 const MyComp = props => {props.a; props.b; props.c;}
 
 
 // You can use default props.
 
-// Plugin input:
 import { Component } from 'solid-js'
 const MyComp: Component<...> = (
   { a = 1, b = 2, c = 3 } = defaultProps
 ) => {a; b; c;}
 
-// Plugin output:
+//  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
+
 import { Component, mergeProps } from 'solid-js'
 const MyComp: Component<...> = props => {
   props = mergeProps(defaultProps, { a: 1, b: 2, c: 3 }, props)
   props.a; props.b; props.c;
 }
+
+
+// You can rename props.
+
+import { Component } from 'solid-js'
+const MyComp: Component<...> = (
+  { a: d, b: e, c: f } = defaultProps
+) => {d; e; f;}
+
+//  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
+
+import { Component, mergeProps } from 'solid-js'
+const MyComp: Component<...> = props => {
+  props.a; props.b; props.c;
+}
+
+
+// You can use rest element destructuring.
+
+import { Component } from 'solid-js'
+const MyComp: Component<...> = ({ a, b, c, ...other }) => {a; b; c; other;}
+
+//  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
+
+import { Component, splitProps } from 'solid-js'
+const MyComp: Component<...> = props => {
+  let other;
+  [props, other] = splitProps(props, ["a", "b", "c"])
+  props.a; props.b; props.c;
+}
 ```
 
+See also [undestructure-example](https://github.com/orenelbaum/undestructure-example).
 
-## TypeScript mode
 
-The TypeScript mode is the mode used by default.
-It transforms all arrow function components which are part of a variable declaration with a `Component` type annotation.
+## `Component` type annotation
+
+When this option is enabled (it is enabled by default), the plugin transforms all arrow function components which are part of a variable declaration with a `Component` type annotation.
 
 The type annotation must be a direct reference to the Solid `Component` type import, or an annotation of the form `Solid.Component` where `Solid` is a reference to the default import of Solid.
 
@@ -91,10 +118,10 @@ const MyComponent: ComponentAlias = // ...
 In this last example, `MyComponent` won't be transformed.
 
 
-## Vanilla Javascript mode
+## Compile type function annotation (supports vanilla JS)
 
-The Vanilla Javascript mode can be used if you are using vanilla JS or you don't want to rely on types to manipulate runtime behavior like the Typescript mode does.
-It transforms all component that are wrapped in the `component` compile-time function provided by this plugin.
+This option can be used if you are using vanilla JS or you don't want to rely on types to manipulate runtime behavior like the type annotation does.
+When this option is enabled (it is enabled by default), the plugin transforms all component that are wrapped in the `component` compile-time function provided by this plugin.
 
 The `component` compile-time function must be a direct reference to the `component` named export from `babel-plugin-solid-undestructure`
 
@@ -141,15 +168,17 @@ In your Vite config, import `undestructurePlugin` from `babel-plugin-solid-undes
 import { undestructurePlugin } from "babel-plugin-solid-undestructure"
 ```
 
-### TypeScript mode
+### TS with Type annotation support
 
-Add this to the top of the plugin list in your Vite config:
+If your'e working with TypeScript code and you want to use the `Component` type annotation, add this to the top of the plugin list in your Vite config:
 
 ```js
 ...undestructurePlugin("ts")
 ```
 
-### Vanilla JavaScript mode
+With this configuration you can use both the `Component` type and the `component` compile time function to annotate components.
+
+### TS or anilla JS, no type annotation support
 
 In your Vite config, find the your vite-plugin-solid initialization (in the default Solid template it will be imported as `solidPlugin`).
 
@@ -162,8 +191,4 @@ babel: {
 } 
 ```
 
-
-## Roadmap
-
-- Rest element destructuring (`({ propA, propB, ...otherProps }) => ...`) with `splitProps`
-- Nested destructuring
+With this configuration you can use both the `Component` type and the `component` compile time function to annotate components.
