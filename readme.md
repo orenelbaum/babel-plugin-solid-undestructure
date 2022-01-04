@@ -1,6 +1,6 @@
 # babel-plugin-solid-undestructure
 
-This babel plugin allows you to destructure your props in your Solid components without losing reactivity.
+This Babel plugin allows you to destructure your props in your Solid components without losing reactivity.
 
 The plugin will "un-destructure" your props at build time, so the code you pass into the Solid compiler will not have destructured props at runtime. Instead the props will be accessed the normal way with `props.someProp`.
 
