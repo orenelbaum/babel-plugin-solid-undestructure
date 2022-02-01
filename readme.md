@@ -47,16 +47,12 @@ const MyComp: Component<...> = props => {
 // You can rename props.
 
 import { Component } from 'solid-js'
-const MyComp: Component<...> = (
-  { a: d, b: e, c: f } = defaultProps
-) => {d; e; f;}
+const MyComp: Component<...> = ({ a: d, b: e, c: f }) => {d; e; f;}
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
 
 import { Component, mergeProps } from 'solid-js'
-const MyComp: Component<...> = props => {
-  props.a; props.b; props.c;
-}
+const MyComp: Component<...> = props => {props.a; props.b; props.c;}
 
 
 // You can use rest element destructuring.
