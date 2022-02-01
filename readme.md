@@ -179,7 +179,7 @@ If your'e working with TypeScript code and you want to use the `Component` type 
 
 With this configuration you can use both the `Component` type and the `component` compile time function to annotate components.
 
-### TS or anilla JS, no type annotation support
+### TS or vanilla JS, no type annotation support
 
 In your Vite config, find the your vite-plugin-solid initialization (in the default Solid template it will be imported as `solidPlugin`).
 
