@@ -70,7 +70,7 @@ import { Component, splitProps } from 'solid-js'
 const MyComp: Component<...> = props => {
   let other;
   [props, other] = splitProps(props, ["a", "b", "c"])
-  props.a; props.b; props.c;
+  props.a; props.b; props.c; other;
 }
 ```
 
