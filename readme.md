@@ -199,7 +199,7 @@ With this configuration you can use both the `Component` type and the `component
 - Automatically apply the transformation to every function annotated with a type with a `Component` suffix
 - Automatically apply the transformation to every function assigned to an identifier that starts with a capital letter
 
-If you want a feature to be added to this plugin, whether it's in this list or not, please open a feature request or tell me [in this discussion](https://github.com/orenelbaum/babel-plugin-solid-undestructure/discussions/5).
+If you want a feature to be added to this plugin, whether it's on this list or not, please open a feature request or tell me [in this discussion](https://github.com/orenelbaum/babel-plugin-solid-undestructure/discussions/5).
 
 
 ## Other cool plugins for Solid:
