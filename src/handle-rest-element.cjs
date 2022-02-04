@@ -25,12 +25,12 @@ function handleRestElement(funcPath, state) {
 		[state.newPropsIdentifier, propsArrExpression]
 	)
 
-	const assigmentExpressionLeft = types.arrayPattern([state.newPropsIdentifier, state.restElement])
+	const assignmentExpressionLeft = types.arrayPattern([state.newPropsIdentifier, state.restElement])
 
 	const assignmentStatement = types.expressionStatement(
 		types.assignmentExpression(
 			"=",
-			assigmentExpressionLeft,
+			assignmentExpressionLeft,
 			callExpression
 		)
 	)

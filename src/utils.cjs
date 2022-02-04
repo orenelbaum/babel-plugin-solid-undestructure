@@ -44,19 +44,19 @@ module.exports.addStatementToFunction = (funcPath, statement) => {
  * to the file.
  */
  module.exports.getOrCreateUniqueImport = (funcPath, specifier) => {
-	let mergePropsUniqueName = lookForUniqueImport(funcPath, specifier)
+	let uniqueName = lookForUniqueImport(funcPath, specifier)
             
 	// If not found, create one
-	if (!mergePropsUniqueName) {
+	if (!uniqueName) {
 		const program = getProgram(funcPath)
 
-		mergePropsUniqueName = program.scope.generateUidIdentifier(specifier)
+		uniqueName = program.scope.generateUidIdentifier(specifier)
 		// We mark the identifier as unique so we can find it later
-		mergePropsUniqueName.unique = true
-		addImportDeclarationToProgram(types, program, mergePropsUniqueName, specifier, "solid-js")
+		uniqueName.unique = true
+		addImportDeclarationToProgram(types, program, uniqueName, specifier, "solid-js")
 	}
   
-	return mergePropsUniqueName
+	return uniqueName
 }
 
 

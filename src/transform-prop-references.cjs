@@ -1,16 +1,17 @@
 const { types } = require("@babel/core")
 
+
 function transformPropReferences(funcPath, state) {   
 	for (const destructredProperty of state.props)
 		mergePropsUniqueName = handleDestructuredProperty(destructredProperty, funcPath, state)
 }
 
-
 function handleDestructuredProperty(destructredProperty, funcPath, state) {
    // e.g. `props.myProp` instead of `prop`
 	const undestructuredPropExpression = types.memberExpression(
       state.newPropsIdentifier,
-      destructredProperty
+      destructredProperty,
+		destructredProperty.type === "StringLiteral"
    )
 
 	funcPath.scope.crawl()

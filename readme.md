@@ -72,7 +72,8 @@ const MyComp: Component<...> = props => {
 
 See also [undestructure-example](https://github.com/orenelbaum/undestructure-example).
 
-This plugin is still in early development and still has some bugs.
+This plugin doesn't have any known bugs at the moment. I'm not sure if it's ready for production yet but it probably will be soon. If you encounter any bugs please open an issue.
+
 
 ## `Component` type annotation
 
@@ -194,6 +195,6 @@ With this configuration you can use both the `Component` type and the `component
 
 ## Other cool plugins for Solid:
 
-- https://github.com/orenelbaum/babel-plugin-reactivars-solid - Svelte like "reactive variables" for Solid that lets you pass reactive variables (getter + setter) around in a concise way (also made by me).
-- https://github.com/LXSMNSYC/babel-plugin-solid-labels - Solid labels is more of an all in one plugin. It has reactive variables, prop destructuring (like this plugin) and some more stuff.
+- https://github.com/orenelbaum/babel-plugin-reactivars-solid - A Svelte-like "reactive variables" plugin for Solid that lets you pass reactive variables (getter + setter) around in a concise way (also made by me).
+- https://github.com/LXSMNSYC/babel-plugin-solid-labels - Solid labels is more of an all in one plugin. It has Svelte-like reactive variables, prop destructuring (like this plugin) and more.
 - https://github.com/LXSMNSYC/solid-sfc - An experimental SFC compiler for SolidJS.

@@ -29,6 +29,7 @@ const checkFirstParam = path => {
  * If the function is annotated with a CTF, mark it in the state.
  */
 const checkFunc = (funcPath, opts, state) => {
+   // Make sure the function wasn't already transformed.
    if (funcPath.transformed) return false
 
 	if (!checkFuncAnnotation(opts, funcPath, state)) return { funcAnnotation: false }

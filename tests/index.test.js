@@ -7,6 +7,7 @@ test('index', async () => {
    await testBasicCase()
 	await testAliasedCtf()
 	await testTypeAnnotation()
+	await testAliasedTypeAnnotation()
 	await testDefaultProps()
    await testFallbackProps()
 	await testRestElement()
@@ -14,6 +15,8 @@ test('index', async () => {
 	await testNoAnnotation()
 	await testNestedDestructuring()
 	await testPropRenaming()
+	await testComponentInsideTsNamespace()
+	await testNamedExport()
 
 	await testDefaultPropsAndFallbackProps()
 	await testDefaultPropsAndRestElement()
@@ -24,6 +27,7 @@ test('index', async () => {
 	await testFallbackPropsNoDestructuring()
 	await testTwoComponentsBasicCase()
 	await testTwoComponentsWithDefaultProps()
+	await testPropRenamingWithComputedPropertyAccess()
 })
 
 test.run()
@@ -105,10 +109,10 @@ async function testAliasedTypeAnnotation() {
 	const src =
 /*javascript*/`import { Component, Component as Comp } from 'solid-js';
 const comp: Component = ({ a, b }) => {a; b;};
-const comp2: Component<T> = ({ a, b }) => {a; b;};`
+const comp2: Comp<T> = ({ a, b }) => {a; b;};`
 
 	const expectedOutput =
-/*javascript*/`import { Component } from 'solid-js';
+/*javascript*/`import { Component, Component as Comp } from 'solid-js';
 
 const comp: Component = _props => {
   _props.a;
@@ -125,7 +129,7 @@ const comp2: Comp<T> = _props2 => {
 		{ plugins: ["@babel/plugin-syntax-typescript", "./src/index.cjs"] }
 	)
 
-	assert.snapshot(res.code, expectedOutput, 'TS annotation.')
+	assert.snapshot(res.code, expectedOutput, 'Aliased TS annotation.')
 }
 
 
@@ -250,7 +254,7 @@ async function testNestedDestructuring() {
 		)
 		threw = false
 	} catch {}
-	assert.ok(threw, 'Nested desctructuring.')
+	assert.ok(threw, 'Nested destructuring.')
 }
 
 
@@ -386,7 +390,6 @@ _props => {
 		src,
 		{ plugins: ["./src/index.cjs"] }
 	)
-	console.log(res.code);
 	assert.snapshot(res.code, expectedOutput, 'Default props + fallback props.')
 }
 
@@ -502,4 +505,64 @@ _props2 => {
 		{ plugins: ["./src/index.cjs"] }
 	)
 	assert.snapshot(res.code, expectedOutput, 'Two components with default props.')
+}
+
+
+async function testPropRenamingWithComputedPropertyAccess() {
+	const src =
+/*javascript*/ `import { component } from 'babel-plugin-solid-undestructure';
+component(({ "!@#$": b }) => {b;});`
+
+	const expectedOutput =
+/*javascript*/ `_props => {
+  _props["!@#$"];
+};`
+
+	const res = await transformAsync(
+		src,
+		{ plugins: ["./src/index.cjs"] }
+	)
+	assert.snapshot(res.code, expectedOutput, 'Prop renaming with dynamic access.')
+}
+
+
+async function testComponentInsideTsNamespace() {
+	const src =
+/*javascript*/ `import { component } from 'babel-plugin-solid-undestructure';
+
+export namespace Foo{
+	export const Bar = component(({ a }) => {a;});
+}`
+
+	const expectedOutput =
+/*javascript*/ `export namespace Foo {
+  export const Bar = _props => {
+    _props.a;
+  };
+}`
+
+	const res = await transformAsync(
+		src,
+		{ plugins: ["@babel/plugin-syntax-typescript", "./src/index.cjs"] }
+	)
+	assert.snapshot(res.code, expectedOutput, 'Component inside TS namespace')
+}
+
+async function testNamedExport() {
+	const src =
+/*javascript*/ `import { component } from 'babel-plugin-solid-undestructure';
+
+export const Bar = component(({ a }) => {a;});
+`
+
+	const expectedOutput =
+/*javascript*/ `export const Bar = _props => {
+  _props.a;
+};`
+
+	const res = await transformAsync(
+		src,
+		{ plugins: ["./src/index.cjs"] }
+	)
+	assert.snapshot(res.code, expectedOutput, 'Component inside TS namespace')
 }

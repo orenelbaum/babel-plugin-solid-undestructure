@@ -62,6 +62,6 @@ test('checkFunc', () => {
 		{ funcAnnotation: true, propDestructuring: false },
 		"Returns false for a function with no prop destructuring."
 	)
-});
+})
 
 test.run()
