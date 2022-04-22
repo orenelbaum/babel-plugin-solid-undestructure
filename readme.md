@@ -194,10 +194,12 @@ With this configuration you can use both the `Component` type and the `component
 
 ## Features under consideration
 
-- Nested destructuring
 - A pragma to annotate components
-- Automatically apply the transformation to every function annotated with a type with a `Component` suffix
-- Automatically apply the transformation to every function assigned to an identifier that starts with a capital letter
+- Add option to automatically apply the transformation to every function annotated with a type with a `Component` suffix
+- Nested component support
+- Nested destructuring
+- Destructure CTF (probably not but maybe)
+- Add option to automatically apply the transformation to every function assigned to an identifier that starts with a capital letter and  (probably not but maybe)
 
 If you want a feature to be added to this plugin, whether it's on this list or not, please open a feature request or tell me [in this discussion](https://github.com/orenelbaum/babel-plugin-solid-undestructure/discussions/5).
 
