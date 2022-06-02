@@ -10,7 +10,7 @@ Usage with examples:
 // Use the `Component` type to mark components that will be transformed by the plugin.
 
 import { Component } from 'solid-js'
-const MyComp: Component<...> = ({ a, b, c }) => {a; b; c;}
+const MyComp: Component<...> = ({ a, b, c }) => {a; b; c;};
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
 
@@ -39,7 +39,7 @@ const MyComp: Component<...> = (
 
 import { Component, mergeProps } from 'solid-js'
 const MyComp: Component<...> = props => {
-  props = mergeProps(defaultProps, { a: 1, b: 2, c: 3 }, props)
+  props = mergeProps(defaultProps, { a: 1, b: 2, c: 3 }, props);
   props.a; props.b; props.c;
 }
 
@@ -65,10 +65,13 @@ const MyComp: Component<...> = ({ a, b, c, ...other }) => {a; b; c; other;}
 import { Component, splitProps } from 'solid-js'
 const MyComp: Component<...> = props => {
   let other;
-  [props, other] = splitProps(props, ["a", "b", "c"])
+  [props, other] = splitProps(props, ["a", "b", "c"]);
   props.a; props.b; props.c; other;
 }
 ```
+
+> **Note**
+> This plugin is compatible with Solid 1.4
 
 See also [undestructure-example](https://github.com/orenelbaum/undestructure-example).
 
