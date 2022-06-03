@@ -10,36 +10,32 @@ The plugin will "un-destructure" your props at build time, so the code you pass 
 Usage with examples:
 
 ```jsx
-// Use the `Component` type to mark components that will be transformed by the plugin.
-
+// Use the `Component` type to mark components that will be transformed by the plugin
 import { Component } from 'solid-js'
 const MyComp: Component<...> = ({ a, b, c }) => {a; b; c;};
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-
 import { Component } from 'solid-js'
 const MyComp: Component<...> = props => {props.a; props.b; props.c;}
 
 
-// You can use a compile time function instead of using the `Component` type (works with vanilla JS).
 
+// You can use a compile time function instead of using the `Component` type (needed for vanilla JS)
 import { component } from 'babel-plugin-solid-undestructure'
 const MyComp = component(({ a, b, c }) => {a; b; c;})
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-
 const MyComp = props => {props.a; props.b; props.c;}
 
 
-// You can use default props.
 
+// Default props using `mergeProps`
 import { Component } from 'solid-js'
 const MyComp: Component<...> = (
   { a = 1, b = 2, c = 3 } = defaultProps
 ) => {a; b; c;}
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-
 import { Component, mergeProps } from 'solid-js'
 const MyComp: Component<...> = props => {
   props = mergeProps(defaultProps, { a: 1, b: 2, c: 3 }, props);
@@ -47,24 +43,21 @@ const MyComp: Component<...> = props => {
 }
 
 
-// You can rename props.
-
+// Rename props
 import { Component } from 'solid-js'
 const MyComp: Component<...> = ({ a: d, b: e, c: f }) => {d; e; f;}
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-
 import { Component, mergeProps } from 'solid-js'
 const MyComp: Component<...> = props => {props.a; props.b; props.c;}
 
 
-// You can use rest element destructuring.
 
+// Rest element destructuring using `splitProps`
 import { Component } from 'solid-js'
 const MyComp: Component<...> = ({ a, b, c, ...other }) => {a; b; c; other;}
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-
 import { Component, splitProps } from 'solid-js'
 const MyComp: Component<...> = props => {
   let other;
@@ -120,7 +113,7 @@ const MyComponent: ComponentAlias = // ...
 In this last example, `MyComponent` won't be transformed.
 
 
-## Compile type function annotation (supports vanilla JS)
+## Compile time function annotation (needed for vanilla JS)
 
 This option can be used if you are using vanilla JS or you don't want to rely on types to manipulate runtime behavior like the type annotation does.
 When this option is enabled (it is enabled by default), the plugin transforms all component that are wrapped in the `component` compile-time function provided by this plugin.
