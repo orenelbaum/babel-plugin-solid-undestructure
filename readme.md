@@ -75,7 +75,8 @@ const MyComp: Component<...> = props => {
 
 See also [undestructure-example](https://github.com/orenelbaum/undestructure-example) (or [Open in Stackblitz](https://stackblitz.com/github/orenelbaum/undestructure-example)).
 
-This plugin doesn't have any known bugs at the moment. I'm not sure if it's ready for production yet but it probably will be soon. If you encounter any bugs please open an issue.
+> **Warning**  
+> This plugin doesn't have any known bugs at the moment but it's still not ready for production use.
 
 
 ## `Component` type annotation
