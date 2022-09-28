@@ -14,7 +14,7 @@ Usage with examples:
 import { Component } from 'solid-js'
 const MyComp: Component<...> = ({ a, b, c }) => {a; b; c;};
 
-//  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
+//  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓  The above code will compile to
 import { Component } from 'solid-js'
 const MyComp: Component<...> = props => {props.a; props.b; props.c;}
 
