@@ -5,7 +5,7 @@ This Babel plugin allows you to destructure your props in your Solid components 
 The plugin will "un-destructure" your props at build time, so the code you pass into the Solid compiler will not have destructured props at runtime. Instead the props will be accessed the normal way with `props.someProp`.
 
 > **Note**  
-> This plugin is compatible with Solid 1.4
+> This plugin is compatible with Solid 1.5
 
 Usage with examples:
 
