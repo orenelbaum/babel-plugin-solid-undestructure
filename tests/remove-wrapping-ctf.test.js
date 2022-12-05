@@ -54,7 +54,6 @@ component(({ someProp }) => {});`
 /*javascript*/`({
   someProp
 }) => {};
-
 ({
   someProp
 }) => {};`

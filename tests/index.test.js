@@ -63,7 +63,6 @@ comp(({ a, b }) => {a; b;});`
   _props.a;
   _props.b;
 };
-
 _props2 => {
   _props2.a;
   _props2.b;
@@ -85,12 +84,10 @@ const comp2: Component<T> = ({ a, b }) => {a; b;};`
 
 	const expectedOutput =
 /*javascript*/`import { Component } from 'solid-js';
-
 const comp: Component = _props => {
   _props.a;
   _props.b;
 };
-
 const comp2: Component<T> = _props2 => {
   _props2.a;
   _props2.b;
@@ -113,12 +110,10 @@ const comp2: Comp<T> = ({ a, b }) => {a; b;};`
 
 	const expectedOutput =
 /*javascript*/`import { Component, Component as Comp } from 'solid-js';
-
 const comp: Component = _props => {
   _props.a;
   _props.b;
 };
-
 const comp2: Comp<T> = _props2 => {
   _props2.a;
   _props2.b;
@@ -140,7 +135,6 @@ component(({ a = 1, b = 2 }) => {a; b;});`
 
 	const expectedOutput =
 /*javascript*/`import { mergeProps as _mergeProps } from "solid-js";
-
 _props => {
   _props = _mergeProps({
     a: 1,
@@ -165,7 +159,6 @@ component(({ a, b } = c) => {a; b;});`
 
 	const expectedOutput =
 /*javascript*/`import { mergeProps as _mergeProps } from "solid-js";
-
 _props => {
   _props = _mergeProps(c, {}, _props);
   _props.a;
@@ -187,7 +180,6 @@ component(({ a, b, c, ...other }) => {a; b; c; other;});`
 
 	const expectedOutput =
 /*javascript*/`import { splitProps as _splitProps } from "solid-js";
-
 _props => {
   let other;
   [_props, other] = _splitProps(_props, ["a", "b", "c"]);
@@ -283,7 +275,6 @@ component(({ a = 1, b = 2 } = c) => {a; b;});`
 
 	const expectedOutput =
 /*javascript*/`import { mergeProps as _mergeProps } from "solid-js";
-
 _props => {
   _props = _mergeProps(c, {
     a: 1,
@@ -309,7 +300,6 @@ component(({ a = 1, b = 2, c = 3, ...other }) => {a; b; c;});`
 	const expectedOutput =
 /*javascript*/`import { splitProps as _splitProps } from "solid-js";
 import { mergeProps as _mergeProps } from "solid-js";
-
 _props => {
   let other;
   [_props, other] = _splitProps(_props, ["a", "b", "c"]);
@@ -339,7 +329,6 @@ component(({ a = 1, b = 2, c = 3, ...other } = fallback) => {a; b; c;});`
 	const expectedOutput =
 /*javascript*/`import { splitProps as _splitProps } from "solid-js";
 import { mergeProps as _mergeProps } from "solid-js";
-
 _props => {
   let other;
   [_props, other] = _splitProps(_props, ["a", "b", "c"]);
@@ -357,7 +346,7 @@ _props => {
 		src,
 		{ plugins: ["./src/index.cjs"] }
 	)
-	assert.snapshot(res.code, expectedOutput, 'Default props + fallback props.')
+	assert.snapshot(res.code, expectedOutput, 'Default props + fallback props + rest element.')
 }
 
 
@@ -369,7 +358,6 @@ component(({ a: d = 1, b: e = 2, c: f = 3, ...other } = fallback) => {a; b; c; d
 	const expectedOutput =
 /*javascript*/`import { splitProps as _splitProps } from "solid-js";
 import { mergeProps as _mergeProps } from "solid-js";
-
 _props => {
   let other;
   [_props, other] = _splitProps(_props, ["a", "b", "c"]);
@@ -390,7 +378,7 @@ _props => {
 		src,
 		{ plugins: ["./src/index.cjs"] }
 	)
-	assert.snapshot(res.code, expectedOutput, 'Default props + fallback props.')
+	assert.snapshot(res.code, expectedOutput, 'Default props + fallback props + prop renaming + rest element.')
 }
 
 
@@ -459,7 +447,6 @@ component(({ c, d }) => {c; d;});`
   _props.a;
   _props.b;
 };
-
 _props2 => {
   _props2.c;
   _props2.d;
@@ -481,7 +468,6 @@ component(({ c = 3, d = 4 }) => {c; d;});`
 
 	const expectedOutput =
 /*javascript*/ `import { mergeProps as _mergeProps } from "solid-js";
-
 _props => {
   _props = _mergeProps({
     a: 1,
@@ -490,7 +476,6 @@ _props => {
   _props.a;
   _props.b;
 };
-
 _props2 => {
   _props2 = _mergeProps({
     c: 3,
