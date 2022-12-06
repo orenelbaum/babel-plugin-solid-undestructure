@@ -9,13 +9,14 @@ function checkTypeAnnotation(path) {
 
 	// Check the type annotation of the variable.
 	if (!path.parent.id.typeAnnotation) return false
-	const outerScopeBindings = path.context.scope.bindings
+	const allScopeBindings = path.scope.getAllBindings()
 	const typeAnnotation = path.parent.id.typeAnnotation.typeAnnotation
 	if (typeAnnotation.type !== "TSTypeReference") return false
 	if (typeAnnotation.typeName.type === "Identifier") {
 		const typeName = typeAnnotation.typeName.name
-		const typeBinding = outerScopeBindings[typeName]
+		const typeBinding = allScopeBindings[typeName]
 		if (!typeBinding) return false
+
 		const importSpecifier = typeBinding.path.node
 		if (importSpecifier.type !== "ImportSpecifier") return false
 		if (importSpecifier.imported.name !== "Component") return false
@@ -26,7 +27,7 @@ function checkTypeAnnotation(path) {
 		const typeQualification = typeAnnotation.typeName.left
 		if (typeQualification.type !== "Identifier") return false
 		const typeQualificationName = typeQualification.name
-		const typeQualificationBinding = outerScopeBindings[typeQualificationName]
+		const typeQualificationBinding = allScopeBindings[typeQualificationName]
 		if (!typeQualificationBinding) return false
 		const importSpecifier = typeQualificationBinding.path.node
 		if (importSpecifier.type !== "ImportDefaultSpecifier") return false

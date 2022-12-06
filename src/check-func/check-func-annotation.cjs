@@ -11,7 +11,7 @@ const possibleAnnotationKinds = ['type', 'ctf', 'pragma']
  */
 function checkFuncAnnotation(opts, path, state) {
 	const { acceptedAnnotationKinds = possibleAnnotationKinds } = opts
-   
+
 	validateAcceptedAnnotationKinds(acceptedAnnotationKinds)
 
 	if (acceptedAnnotationKinds.includes('type') && checkTypeAnnotation(path)) return true

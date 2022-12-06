@@ -28,6 +28,8 @@ test('index', async () => {
 	await testTwoComponentsBasicCase()
 	await testTwoComponentsWithDefaultProps()
 	await testPropRenamingWithComputedPropertyAccess()
+	await testNestedComponents()
+	await testNestedComponentsTypeAnnotation()
 })
 
 test.run()
@@ -294,7 +296,7 @@ _props => {
 
 async function testDefaultPropsAndRestElement() {
 	const src =
-/*javascript*/ `import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
 component(({ a = 1, b = 2, c = 3, ...other }) => {a; b; c;});`
 
 	const expectedOutput =
@@ -383,7 +385,7 @@ _props => {
 
 
 async function testDefaultPropsAndNestedDestructuring() {
-	const src = /*javascript*/ `
+	const src = /*javascript*/`
 		import { component } from 'babel-plugin-solid-undestructure';
 		component(({ a: { b } = c }) => {b;});
 	`
@@ -401,7 +403,7 @@ async function testDefaultPropsAndNestedDestructuring() {
 
 
 async function testDefaultPropsAndPropRenaming() {
-	const src = /*javascript*/ `
+	const src = /*javascript*/`
 		import { component } from 'babel-plugin-solid-undestructure';
 		component(({ a: b = c }) => {b;});
 	`
@@ -420,11 +422,11 @@ async function testDefaultPropsAndPropRenaming() {
 
 async function testFallbackPropsNoDestructuring() {
 	const src =
-/*javascript*/ `import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
 component((props = a) => {props.b});`
 
 	const expectedOutput =
-/*javascript*/ `(props = a) => {
+/*javascript*/`(props = a) => {
   props.b;
 };`
 
@@ -438,12 +440,12 @@ component((props = a) => {props.b});`
 
 async function testTwoComponentsBasicCase() {
 	const src =
-/*javascript*/ `import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
 component(({ a, b }) => {a; b;});
 component(({ c, d }) => {c; d;});`
 
 	const expectedOutput =
-/*javascript*/ `_props => {
+/*javascript*/`_props => {
   _props.a;
   _props.b;
 };
@@ -462,12 +464,12 @@ _props2 => {
 
 async function testTwoComponentsWithDefaultProps() {
 	const src =
-/*javascript*/ `import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
 component(({ a = 1, b = 2 }) => {a; b;});
 component(({ c = 3, d = 4 }) => {c; d;});`
 
 	const expectedOutput =
-/*javascript*/ `import { mergeProps as _mergeProps } from "solid-js";
+/*javascript*/`import { mergeProps as _mergeProps } from "solid-js";
 _props => {
   _props = _mergeProps({
     a: 1,
@@ -495,11 +497,11 @@ _props2 => {
 
 async function testPropRenamingWithComputedPropertyAccess() {
 	const src =
-/*javascript*/ `import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
 component(({ "!@#$": b }) => {b;});`
 
 	const expectedOutput =
-/*javascript*/ `_props => {
+/*javascript*/`_props => {
   _props["!@#$"];
 };`
 
@@ -507,20 +509,20 @@ component(({ "!@#$": b }) => {b;});`
 		src,
 		{ plugins: ["./src/index.cjs"] }
 	)
-	assert.snapshot(res.code, expectedOutput, 'Prop renaming with dynamic access.')
+	assert.snapshot(res.code, expectedOutput, 'Prop renaming with computed property access.')
 }
 
 
 async function testComponentInsideTsNamespace() {
 	const src =
-/*javascript*/ `import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
 
 export namespace Foo{
 	export const Bar = component(({ a }) => {a;});
 }`
 
 	const expectedOutput =
-/*javascript*/ `export namespace Foo {
+/*javascript*/`export namespace Foo {
   export const Bar = _props => {
     _props.a;
   };
@@ -535,13 +537,13 @@ export namespace Foo{
 
 async function testNamedExport() {
 	const src =
-/*javascript*/ `import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
 
 export const Bar = component(({ a }) => {a;});
 `
 
 	const expectedOutput =
-/*javascript*/ `export const Bar = _props => {
+/*javascript*/`export const Bar = _props => {
   _props.a;
 };`
 
@@ -549,5 +551,150 @@ export const Bar = component(({ a }) => {a;});
 		src,
 		{ plugins: ["./src/index.cjs"] }
 	)
-	assert.snapshot(res.code, expectedOutput, 'Component inside TS namespace')
+	assert.snapshot(res.code, expectedOutput, 'Named export')
+}
+
+// Test deep nested multiple components
+async function testNestedComponents() {
+	const src =
+/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+
+export const Parent = component(({ a }) => {
+	a;
+	const Child1 = component(({ b }) => {
+		a; b;
+		const GrandChild1 = component(({ c }) => {
+			a; b; c;
+		});
+		const GrandChild2 = component(({ d }) => {
+			a; b; d;
+		});
+	});
+	const Child2 = component(({ e }) => {
+		a; e;
+		const GrandChild3 = component(({ f }) => {
+			a; e; f;
+		});
+		const GrandChild4 = component(({ g }) => {
+			a; e; g;
+		});
+	});
+});`
+
+	const expectedOutput =
+/*javascript*/`export const Parent = _props => {
+  _props.a;
+  const Child1 = _props2 => {
+    _props.a;
+    _props2.b;
+    const GrandChild1 = _props3 => {
+      _props.a;
+      _props2.b;
+      _props3.c;
+    };
+    const GrandChild2 = _props4 => {
+      _props.a;
+      _props2.b;
+      _props4.d;
+    };
+  };
+  const Child2 = _props5 => {
+    _props.a;
+    _props5.e;
+    const GrandChild3 = _props6 => {
+      _props.a;
+      _props5.e;
+      _props6.f;
+    };
+    const GrandChild4 = _props7 => {
+      _props.a;
+      _props5.e;
+      _props7.g;
+    };
+  };
+};`
+
+	let res
+	try {
+		res = await transformAsync(
+			src,
+			{ plugins: ["./src/index.cjs"] }
+		)
+	}
+	catch (e) {
+		assert.unreachable(e.message);
+	}
+	assert.snapshot(res.code, expectedOutput, 'Nested components')
+}
+
+async function testNestedComponentsTypeAnnotation() {
+	const src =
+/*javascript*/`import { Component } from 'solid-js';
+
+export const Parent: Component = ({ a }) => {
+	a;
+	const Child1: Component = ({ b }) => {
+		a; b;
+		const GrandChild1: Component = ({ c }) => {
+			a; b; c;
+		};
+		const GrandChild2: Component = ({ d }) => {
+			a; b; d;
+		};
+	};
+	const Child2: Component = ({ e }) => {
+		a; e;
+		const GrandChild3: Component = ({ f }) => {
+			a; e; f;
+		};
+		const GrandChild4: Component = ({ g }) => {
+			a; e; g;
+		};
+	};
+};`
+
+	const expectedOutput = /*javascript*/`import { Component } from 'solid-js';
+export const Parent: Component = _props => {
+  _props.a;
+  const Child1: Component = _props2 => {
+    _props.a;
+    _props2.b;
+    const GrandChild1: Component = _props3 => {
+      _props.a;
+      _props2.b;
+      _props3.c;
+    };
+    const GrandChild2: Component = _props4 => {
+      _props.a;
+      _props2.b;
+      _props4.d;
+    };
+  };
+  const Child2: Component = _props5 => {
+    _props.a;
+    _props5.e;
+    const GrandChild3: Component = _props6 => {
+      _props.a;
+      _props5.e;
+      _props6.f;
+    };
+    const GrandChild4: Component = _props7 => {
+      _props.a;
+      _props5.e;
+      _props7.g;
+    };
+  };
+};`
+
+	let res
+	try {
+		res = await transformAsync(
+			src,
+			{ plugins: ["@babel/plugin-syntax-typescript", "./src/index.cjs"] }
+		)
+	}
+	catch (e) {
+		assert.unreachable(e.message);
+	}
+	assert.snapshot(res.code, expectedOutput, 'Nested components with type annotation')
 }

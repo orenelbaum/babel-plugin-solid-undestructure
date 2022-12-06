@@ -13,7 +13,7 @@ const funcVisitor = (funcPath, { opts }) => {
 	const state = {}
 
 	// Check that the function needs to be transformed.
-	const checkRes =  checkFunc(funcPath, opts, state)
+	const checkRes = checkFunc(funcPath, opts, state)
 
 	if (!checkRes?.funcAnnotation) return
 

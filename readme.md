@@ -5,7 +5,7 @@ This Babel plugin allows you to destructure your props in your Solid components 
 The plugin will "un-destructure" your props at build time, so the code you pass into the Solid compiler will not have destructured props at runtime. Instead the props will be accessed the normal way with `props.someProp`.
 
 > **Note**  
-> This plugin is compatible with Solid 1.5
+> This plugin is compatible with Solid 1.6 and is likely to work with every version of Solid 1.x.
 
 Usage with examples:
 
@@ -43,6 +43,7 @@ const MyComp: Component<...> = props => {
 }
 
 
+
 // Rename props
 import { Component } from 'solid-js'
 const MyComp: Component<...> = ({ a: d, b: e, c: f }) => {d; e; f;}
@@ -63,6 +64,24 @@ const MyComp: Component<...> = props => {
   let other;
   [props, other] = splitProps(props, ["a", "b", "c"]);
   props.a; props.b; props.c; other;
+}
+
+
+
+// You can nest components
+import { Component } from 'solid-js'
+const Parent: Component<...> = ({ a, b }) => {
+  const Child: Component<...> = ({ c, d }) => {
+    a; b; c; d;
+  }
+}
+
+//  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
+import { Component } from 'solid-js'
+const Parent: Component<...> = props1 => {
+  const Child: Component<...> = props2 => {
+    props1.a; props1.b; props2.c; props2.d;
+  }
 }
 ```
 
@@ -206,3 +225,35 @@ If you want a feature to be added to this plugin, whether it's on this list or n
 - https://github.com/orenelbaum/babel-plugin-reactivars-solid - A Svelte-like "reactive variables" plugin for Solid that lets you pass reactive variables (getter + setter) around in a concise way (also made by me).
 - https://github.com/LXSMNSYC/babel-plugin-solid-labels - Solid labels is more of an all in one plugin. It has Svelte-like reactive variables, prop destructuring (like this plugin) and more.
 - https://github.com/LXSMNSYC/solid-sfc - An experimental SFC compiler for SolidJS.
+
+
+## Development
+
+The project is written in TypeScript and I think that it's relatively well documented and written in a way that makes it easy to understand as long as you're familiar with Babel plugins. If you're not, Babel plugins are much more straight forward than they look, I recommend playing a bit with [AST Explorer](https://astexplorer.net/) to get a feel for how they work, and you can also take a look at [the Babel plugin handbook](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md).
+
+It's recommended to use pnpm for development.
+
+Get started with:
+```sh
+pnpm i
+```
+
+You can test your changes either by adding a test or by using the playground.
+A test should be added for every new feature anyway, but you can use the playground if you don't want to start by writing a test, you can also skip writing a test altogether, in this case I'll add a test myself.
+
+For working with the playground and the tests, if you're on VSCode I recommend installing the extension [es6-string-javascript](https://marketplace.visualstudio.com/items?itemName=zjcompt.es6-string-javascript) which will highlight JS code inside template literals using a pragma, this way:
+```js
+/*javascript*/`code goes here`
+```
+
+The playground is a file called `playground.cjs`. To work with the playground just go to the file and edit the code in the `src` variable.
+Your can run the playground with:
+```sh
+pnpm run playground
+```
+
+Writing a test is a bit trickier since uvu doesn't support snapshots and I'm too lazy to set it up in a better way.
+So I won't document the process right now, I'll just mention that you can run the tests with:
+```sh
+pnpm run test
+```
