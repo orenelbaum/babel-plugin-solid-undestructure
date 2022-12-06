@@ -4,7 +4,7 @@ const { transformAsync } = require("@babel/core")
 // Change the following code and and run `pnpm run playground`
 const src=/*javascript*/`
 import { Component } from 'solid-js'
-import x from 'babel-plugin-solid-undestructure'
+import x from 'undestructure-macros'
 const MyComp: Component<T> = ({ a, b, c, ...other }) => {a; b; c; other;}
 `
 

@@ -30,7 +30,7 @@ test('removeWrappingCtf', () => {
 
 
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ someProp }) => {});`
 
 	const expectedOutput =
@@ -46,7 +46,7 @@ component(({ someProp }) => {});`
 
 
 	const src2 =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ someProp }) => {});
 component(({ someProp }) => {});`
 

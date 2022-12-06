@@ -1,6 +1,6 @@
 
 /**
- * Checks if there are any remaining imports from `babel-plugin-solid-undestructure`.
+ * Checks if there are any remaining imports from `undestructure-macros`.
  * If there are any remaining imports and any of them are used, an error is thrown.
  * Otherwise, if none are used, the remaining imports are removed.
  */
@@ -48,7 +48,7 @@ function getPluginImportPaths(programPath) {
       
       if (
          node.type === 'ImportDeclaration'
-         && node.source.value === 'babel-plugin-solid-undestructure'
+         && node.source.value === 'undestructure-macros'
       )
          pluginImportPaths.push(programPath.get(`body.${i}`))
    }

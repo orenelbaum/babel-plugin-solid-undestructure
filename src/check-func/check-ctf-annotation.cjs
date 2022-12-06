@@ -13,7 +13,7 @@ function checkCtfAnnotation(path, state) {
 	const importSpecifier = wrappingFunctionBinding.path.node
 	if (importSpecifier.type !== "ImportSpecifier") return false
 	if (importSpecifier.imported.name !== "component") return false
-	if (wrappingFunctionBinding.path.parent.source.value !== 'babel-plugin-solid-undestructure') return false
+	if (wrappingFunctionBinding.path.parent.source.value !== 'undestructure-macros') return false
 
 
 	state.isAnnotatedWithCtf = true

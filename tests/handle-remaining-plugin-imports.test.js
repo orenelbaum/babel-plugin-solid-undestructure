@@ -48,7 +48,7 @@ test('handleRemainingPluginImports', () => {
 
 
 	const src2 = /*javascript*/`
-      import { component } from 'babel-plugin-solid-undestructure'
+      import { component } from 'undestructure-macros'
       component(({ someProp }) => {})
    `
 	assertThrows(
@@ -59,7 +59,7 @@ test('handleRemainingPluginImports', () => {
 
 
 	const src3 = /*javascript*/`
-      import component from 'babel-plugin-solid-undestructure'
+      import component from 'undestructure-macros'
       component(({ someProp }) => {})
    `
 	assertThrows(
@@ -70,8 +70,8 @@ test('handleRemainingPluginImports', () => {
 
 
 	const src4 = /*javascript*/`
-import a, { b as c } from 'babel-plugin-solid-undestructure'
-import d, { e as f } from 'babel-plugin-solid-undestructure'
+import a, { b as c } from 'undestructure-macros'
+import d, { e as f } from 'undestructure-macros'
 
 (({ someProp }) => {})`
 

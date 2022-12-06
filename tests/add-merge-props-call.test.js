@@ -32,11 +32,11 @@ test('addMergePropsCall', () => {
 
 
 	const src1 =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ someProp }) => {});`
 
 	const expectedOutput1 =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({
   someProp
 }) => {});`
@@ -49,12 +49,12 @@ component(({
 
 
 	const src2 =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ someProp = a } = b) => {});`
 
 	const expectedOutput2 =
 /*javascript*/`import { mergeProps as _mergeProps } from "solid-js";
-import { component } from 'babel-plugin-solid-undestructure';
+import { component } from 'undestructure-macros';
 component(({
   someProp = a
 } = b) => {
@@ -71,13 +71,13 @@ component(({
 
 
 	const src3 =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ someProp = a } = b) => {});
 component(({ someProp = a } = b) => {});`
 
 	const expectedOutput3 =
 /*javascript*/`import { mergeProps as _mergeProps } from "solid-js";
-import { component } from 'babel-plugin-solid-undestructure';
+import { component } from 'undestructure-macros';
 component(({
   someProp = a
 } = b) => {

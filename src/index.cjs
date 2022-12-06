@@ -1,6 +1,6 @@
-const { babel } = require("@rollup/plugin-babel")
-const { handleRemainingPluginImports } = require("./handle-remaining-plugin-imports.cjs")
-const { funcVisitor } = require("./func-visitor.cjs")
+const { babel } = require('@rollup/plugin-babel')
+const { handleRemainingPluginImports } = require('./handle-remaining-plugin-imports.cjs')
+const { funcVisitor } = require('./func-visitor.cjs')
 
 
 // This is the entry point for babel.
@@ -12,7 +12,7 @@ module.exports = function babelPluginUndestructure () {
 		Program: { exit: handleRemainingPluginImports }
 	}
 
-	return { name: "babel-plugin-solid-undestructure", visitor }
+	return { name: 'babel-plugin-solid-undestructure', visitor }
 }
 
 
@@ -22,27 +22,28 @@ module.exports.undestructurePlugin = mode => {
 		{
 			...babel({
 				plugins: [
-					["@babel/plugin-syntax-typescript", { isTSX: true }],
-					"babel-plugin-solid-undestructure",
+					['@babel/plugin-syntax-typescript', { isTSX: true }],
+					'babel-plugin-solid-undestructure',
 				],
-				extensions: [".tsx"]
+				extensions: ['.tsx']
 			}),
 			enforce: 'pre'
 	  	},
 		{
 			...babel({
 				plugins: [
-					"@babel/plugin-syntax-typescript",
-					"babel-plugin-solid-undestructure",
+					'@babel/plugin-syntax-typescript',
+					'babel-plugin-solid-undestructure',
 				],
-				extensions: [".ts"]
+				extensions: ['.ts'],
+				babelHelpers: 'bundled'
 			}),
 			enforce: 'pre'
 	  	}
 	]
 
-	else if (mode === "vanilla-js")
-		return ["babel-plugin-solid-undestructure", { mode: "vanilla-js" }]
+	else if (mode === 'vanilla-js')
+		return ['babel-plugin-solid-undestructure', { mode: 'vanilla-js' }]
 	
 	else throw new Error(
 `babel-plugin-solid-undestructure error: Invalid mode.

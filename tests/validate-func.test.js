@@ -22,7 +22,7 @@ test('validateFunc', () => {
 
 
 	const code1 = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure'
+		import { component } from 'undestructure-macros'
 		component(({ someProp }) => {})
 	`
 	assertValidateFunc(
@@ -33,7 +33,7 @@ test('validateFunc', () => {
 
 	// Validate prop renaming
 	const code2 = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure'
+		import { component } from 'undestructure-macros'
 		component(({ someProp: rename }) => {})
 	`
 	assertValidateFunc(
@@ -45,7 +45,7 @@ test('validateFunc', () => {
 
 	// Validate prop renaming with default props
 	const code3 = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure'
+		import { component } from 'undestructure-macros'
 		component(({ someProp: rename = def }) => {})
 	`
 	assertValidateFunc(
@@ -57,7 +57,7 @@ test('validateFunc', () => {
 
 	// Validate nested destructuring
 	const code4 = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure'
+		import { component } from 'undestructure-macros'
 		component(({ someProp: { nested } }) => {})
 	`
 	assertValidateFunc(
@@ -68,7 +68,7 @@ test('validateFunc', () => {
 
 	// Validate nested destructuring with default props
 	const code5 = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure'
+		import { component } from 'undestructure-macros'
 		component(({ someProp: { nested } = def }) => {})
 	`
 	assertValidateFunc(
@@ -79,7 +79,7 @@ test('validateFunc', () => {
 
 	// Validate default props
 	const code6 = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure'
+		import { component } from 'undestructure-macros'
 		component(({ someProp = def }) => {})
 	`
 	assertValidateFunc(

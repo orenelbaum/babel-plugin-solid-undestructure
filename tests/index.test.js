@@ -37,7 +37,7 @@ test.run()
 
 async function testBasicCase() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a, b }) => {a; b;});`
 
 	const expectedOutput =
@@ -56,7 +56,7 @@ component(({ a, b }) => {a; b;});`
 
 async function testAliasedCtf() {
 	const src =
-/*javascript*/`import { component, component as comp } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component, component as comp } from 'undestructure-macros';
 component(({ a, b }) => {a; b;});
 comp(({ a, b }) => {a; b;});`
 
@@ -132,7 +132,7 @@ const comp2: Comp<T> = _props2 => {
 
 async function testDefaultProps() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a = 1, b = 2 }) => {a; b;});`
 
 	const expectedOutput =
@@ -156,7 +156,7 @@ _props => {
 
 async function testFallbackProps() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a, b } = c) => {a; b;});`
 
 	const expectedOutput =
@@ -177,7 +177,7 @@ _props => {
 
 async function testRestElement() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a, b, c, ...other }) => {a; b; c; other;});`
 
 	const expectedOutput =
@@ -201,7 +201,7 @@ _props => {
 
 async function testNoDestructuring() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(props => {props.a});`
 
 	const expectedOutput =
@@ -236,7 +236,7 @@ async function testNoAnnotation() {
 
 async function testNestedDestructuring() {
 	const src = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure';
+		import { component } from 'undestructure-macros';
 		component(({ a: { b } }) => {b;});
 	`
 
@@ -254,7 +254,7 @@ async function testNestedDestructuring() {
 
 async function testPropRenaming() {
 	const src = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure';
+		import { component } from 'undestructure-macros';
 		component(({ a: b }) => {b;});
 	`
 
@@ -272,7 +272,7 @@ async function testPropRenaming() {
 
 async function testDefaultPropsAndFallbackProps() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a = 1, b = 2 } = c) => {a; b;});`
 
 	const expectedOutput =
@@ -296,7 +296,7 @@ _props => {
 
 async function testDefaultPropsAndRestElement() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a = 1, b = 2, c = 3, ...other }) => {a; b; c;});`
 
 	const expectedOutput =
@@ -325,7 +325,7 @@ _props => {
 
 async function testDefaultPropsFallbackPropsAndRestElement() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a = 1, b = 2, c = 3, ...other } = fallback) => {a; b; c;});`
 
 	const expectedOutput =
@@ -354,7 +354,7 @@ _props => {
 
 async function testDefaultPropsFallbackPropsPropRenamingAndRestElement() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a: d = 1, b: e = 2, c: f = 3, ...other } = fallback) => {a; b; c; d; e; f;});`
 
 	const expectedOutput =
@@ -386,7 +386,7 @@ _props => {
 
 async function testDefaultPropsAndNestedDestructuring() {
 	const src = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure';
+		import { component } from 'undestructure-macros';
 		component(({ a: { b } = c }) => {b;});
 	`
 
@@ -404,7 +404,7 @@ async function testDefaultPropsAndNestedDestructuring() {
 
 async function testDefaultPropsAndPropRenaming() {
 	const src = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure';
+		import { component } from 'undestructure-macros';
 		component(({ a: b = c }) => {b;});
 	`
 
@@ -422,7 +422,7 @@ async function testDefaultPropsAndPropRenaming() {
 
 async function testFallbackPropsNoDestructuring() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component((props = a) => {props.b});`
 
 	const expectedOutput =
@@ -440,7 +440,7 @@ component((props = a) => {props.b});`
 
 async function testTwoComponentsBasicCase() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a, b }) => {a; b;});
 component(({ c, d }) => {c; d;});`
 
@@ -464,7 +464,7 @@ _props2 => {
 
 async function testTwoComponentsWithDefaultProps() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a = 1, b = 2 }) => {a; b;});
 component(({ c = 3, d = 4 }) => {c; d;});`
 
@@ -497,7 +497,7 @@ _props2 => {
 
 async function testPropRenamingWithComputedPropertyAccess() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ "!@#$": b }) => {b;});`
 
 	const expectedOutput =
@@ -515,7 +515,7 @@ component(({ "!@#$": b }) => {b;});`
 
 async function testComponentInsideTsNamespace() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 
 export namespace Foo{
 	export const Bar = component(({ a }) => {a;});
@@ -537,7 +537,7 @@ export namespace Foo{
 
 async function testNamedExport() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 
 export const Bar = component(({ a }) => {a;});
 `
@@ -557,7 +557,7 @@ export const Bar = component(({ a }) => {a;});
 // Test deep nested multiple components
 async function testNestedComponents() {
 	const src =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 
 export const Parent = component(({ a }) => {
 	a;

@@ -21,7 +21,7 @@ const MyComp: Component<...> = props => {props.a; props.b; props.c;}
 
 
 // You can use a compile time function instead of using the `Component` type (needed for vanilla JS)
-import { component } from 'babel-plugin-solid-undestructure'
+import { component } from 'undestructure-macros'
 const MyComp = component(({ a, b, c }) => {a; b; c;})
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
@@ -87,11 +87,8 @@ const Parent: Component<...> = props1 => {
 
 See also [undestructure-example](https://github.com/orenelbaum/undestructure-example) (or [Open in Stackblitz](https://stackblitz.com/github/orenelbaum/undestructure-example)).
 
-> **Warning**  
-> This plugin doesn't have any known bugs at the moment but it's still not ready for production use.
 
-
-## `Component` type annotation
+## `Component` Type Annotation
 
 When this option is enabled (it is enabled by default), the plugin transforms all arrow function components which are part of a variable declaration with a `Component` type annotation.
 
@@ -132,25 +129,25 @@ const MyComponent: ComponentAlias = // ...
 In this last example, `MyComponent` won't be transformed.
 
 
-## Compile time function annotation (needed for vanilla JS)
+## Compile Time Function Annotation (Needed for Vanilla JS)
 
 This option can be used if you are using vanilla JS or you don't want to rely on types to manipulate runtime behavior like the type annotation does.
 When this option is enabled (it is enabled by default), the plugin transforms all component that are wrapped in the `component` compile-time function provided by this plugin.
 
-The `component` compile-time function must be a direct reference to the `component` named export from `babel-plugin-solid-undestructure`
+The `component` compile-time function must be a direct reference to the `component` named export from `undestructure-macros`
 
 You can also use the 'import as' syntax.
 
 Examples:
 
 ```jsx
-import { component } from 'babel-plugin-solid-undestructure'
+import { component } from 'undestructure-macros'
 
 const MyComponent = component(/* your component goes here. */)
 ```
 
 ```tsx
-import { component as c } from 'babel-plugin-solid-undestructure'
+import { component as c } from 'undestructure-macros'
 
 const MyComponent = c(/* your component goes here. */)
 ```
@@ -158,7 +155,7 @@ const MyComponent = c(/* your component goes here. */)
 This example won't work:
 
 ```tsx
-import { component } from 'babel-plugin-solid-undestructure'
+import { component } from 'undestructure-macros'
 
 const c = component
 
@@ -168,12 +165,12 @@ const MyComponent = c(/* your component goes here. */)
 In this last example, `MyComponent` won't be transformed.
 
 
-## Configuring Vite
+## Installation and Configuring Vite
 
-Install the plugin with 
+Install the plugin and the macro placeholder package with
 
 ```sh
-npm i -D babel-plugin-solid-undestructure
+npm i -D babel-plugin-solid-undestructure undestructure-macros
 ```
 
 In your Vite config, import `undestructurePlugin` from `babel-plugin-solid-undestructure`
@@ -182,7 +179,7 @@ In your Vite config, import `undestructurePlugin` from `babel-plugin-solid-undes
 import { undestructurePlugin } from "babel-plugin-solid-undestructure"
 ```
 
-### TS with Type annotation support
+### TS with Type Annotation Support
 
 If your'e working with TypeScript code and you want to use the `Component` type annotation, add this to the top of the plugin list in your Vite config:
 
@@ -192,7 +189,7 @@ If your'e working with TypeScript code and you want to use the `Component` type 
 
 With this configuration you can use both the `Component` type and the `component` compile time function to annotate components.
 
-### TS or vanilla JS, no type annotation support
+### TS or Vanilla JS, No Type Annotation Support
 
 In your Vite config, find the your vite-plugin-solid initialization (in the default Solid template it will be imported as `solidPlugin`).
 
@@ -208,19 +205,20 @@ babel: {
 With this configuration you can use both the `Component` type and the `component` compile time function to annotate components.
 
 
-## Features under consideration
+## Roadmap
 
+- Support for `ParentComponent` type annotation
 - A pragma to annotate components
-- Add option to automatically apply the transformation to every function annotated with a type with a `Component` suffix
-- Nested component support
+
+## Features Under Consideration
+
 - Nested destructuring
 - Destructure CTF (probably not but maybe)
-- Add option to automatically apply the transformation to every function assigned to an identifier that starts with a capital letter and  (probably not but maybe)
 
 If you want a feature to be added to this plugin, whether it's on this list or not, please open a feature request or tell me [in this discussion](https://github.com/orenelbaum/babel-plugin-solid-undestructure/discussions/5).
 
 
-## Other cool plugins for Solid:
+## Other Cool Plugins for Solid:
 
 - https://github.com/orenelbaum/babel-plugin-reactivars-solid - A Svelte-like "reactive variables" plugin for Solid that lets you pass reactive variables (getter + setter) around in a concise way (also made by me).
 - https://github.com/LXSMNSYC/babel-plugin-solid-labels - Solid labels is more of an all in one plugin. It has Svelte-like reactive variables, prop destructuring (like this plugin) and more.

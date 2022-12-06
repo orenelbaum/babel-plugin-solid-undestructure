@@ -1,0 +1,15 @@
+{
+	"name": "undestructure-macros",
+	"description": "A placeholder package for babel-plugin-solid-undestructure macros",
+	"version": "0.0.0",
+	"main": "src/index.js",
+   "module": "src/index.js",
+	"types": "src/index.d.ts",
+	"type": "module",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/orenelbaum/babel-plugin-solid-undestructure"
+	},
+	"author": "Oren Elbaum"
+}

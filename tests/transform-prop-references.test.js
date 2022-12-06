@@ -32,11 +32,11 @@ test('transformPropReferences', () => {
 
 
 	const src1 =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a, b }) => {a; b;});`
 
 	const expectedOutput1 =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({
   a,
   b
@@ -53,11 +53,11 @@ component(({
 
 
 	const src2 =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({ a: c, b: d }) => {a; b; c; d;});`
 
 	const expectedOutput2 =
-/*javascript*/`import { component } from 'babel-plugin-solid-undestructure';
+/*javascript*/`import { component } from 'undestructure-macros';
 component(({
   a: c,
   b: d

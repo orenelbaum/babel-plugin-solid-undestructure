@@ -8,12 +8,10 @@ specifiers:
   '@babel/traverse': ^7.20.5
   '@babel/types': ^7.20.5
   '@rollup/plugin-babel': ^5.3.1
-  remeda: ^0.0.32
   uvu: ^0.5.6
 
 dependencies:
   '@rollup/plugin-babel': 5.3.1_@babel+core@7.20.5
-  remeda: 0.0.32
 
 devDependencies:
   '@babel/core': 7.20.5
@@ -404,10 +402,6 @@ packages:
   /picomatch/2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
-    dev: false
-
-  /remeda/0.0.32:
-    resolution: {integrity: sha512-FEdl8ONpqY7AvvMHG5WYdomc0mGf2khHPUDu6QvNkOq4Wjkw5BvzWM4QyksAQ/US1sFIIRG8TVBn6iJx6HbRrA==}
     dev: false
 
   /sade/1.8.1:

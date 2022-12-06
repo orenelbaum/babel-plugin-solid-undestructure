@@ -21,7 +21,7 @@ test('checkFunc', () => {
 
 
 	const code1 = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure'
+		import { component } from 'undestructure-macros'
 		component(({ someProp }) => {})
 	`
 	assertCheckFunc(
@@ -32,7 +32,7 @@ test('checkFunc', () => {
 
 
 	const code2 = /*javascript*/`
-		import { wrongCtfName } from 'babel-plugin-solid-undestructure'
+		import { wrongCtfName } from 'undestructure-macros'
 		wrongCtfName(({ someProp }) => {})
 	`
 	assertCheckFunc(
@@ -54,7 +54,7 @@ test('checkFunc', () => {
 	
 	
 	const code4 = /*javascript*/`
-		import { component } from 'babel-plugin-solid-undestructure'
+		import { component } from 'undestructure-macros'
 		component(props => {})
 	`
 	assertCheckFunc(
