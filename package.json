@@ -1,7 +1,7 @@
 {
 	"name": "babel-plugin-solid-undestructure",
 	"description": "A Babel plugin for SolidJS that allows you to destructure component props without losing reactivity.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"main": "src/index.cjs",
 	"types": "src/index.d.ts",
 	"type": "module",
