@@ -11,12 +11,22 @@ Usage with examples:
 
 ```jsx
 // Use the `Component` type to mark components that will be transformed by the plugin
-import { Component } from 'solid-js'
+import type { Component } from 'solid-js'
 const MyComp: Component<...> = ({ a, b, c }) => {a; b; c;};
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓  The above code will compile to
-import { Component } from 'solid-js'
+import type { Component } from 'solid-js'
 const MyComp: Component<...> = props => {props.a; props.b; props.c;}
+
+
+
+// Also works with the `ParentComponent` type
+import type { ParentComponent } from 'solid-js'
+const MyComp: ParentComponent<...> = ({ a, b, c }) => {a; b; c;};
+
+//  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
+import type { ParentComponent } from 'solid-js'
+const MyComp: ParentComponent<...> = props => {props.a; props.b; props.c;}
 
 
 
@@ -30,13 +40,13 @@ const MyComp = props => {props.a; props.b; props.c;}
 
 
 // Default props using `mergeProps`
-import { Component } from 'solid-js'
+import type { Component } from 'solid-js'
 const MyComp: Component<...> = (
   { a = 1, b = 2, c = 3 } = defaultProps
 ) => {a; b; c;}
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-import { Component, mergeProps } from 'solid-js'
+import { type Component, mergeProps } from 'solid-js'
 const MyComp: Component<...> = props => {
   props = mergeProps(defaultProps, { a: 1, b: 2, c: 3 }, props);
   props.a; props.b; props.c;
@@ -45,21 +55,21 @@ const MyComp: Component<...> = props => {
 
 
 // Rename props
-import { Component } from 'solid-js'
+import type { Component } from 'solid-js'
 const MyComp: Component<...> = ({ a: d, b: e, c: f }) => {d; e; f;}
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-import { Component, mergeProps } from 'solid-js'
+import { type Component, mergeProps } from 'solid-js'
 const MyComp: Component<...> = props => {props.a; props.b; props.c;}
 
 
 
 // Rest element destructuring using `splitProps`
-import { Component } from 'solid-js'
+import type { Component } from 'solid-js'
 const MyComp: Component<...> = ({ a, b, c, ...other }) => {a; b; c; other;}
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-import { Component, splitProps } from 'solid-js'
+import { type Component, splitProps } from 'solid-js'
 const MyComp: Component<...> = props => {
   let other;
   [props, other] = splitProps(props, ["a", "b", "c"]);
@@ -69,7 +79,7 @@ const MyComp: Component<...> = props => {
 
 
 // You can nest components
-import { Component } from 'solid-js'
+import type { Component } from 'solid-js'
 const Parent: Component<...> = ({ a, b }) => {
   const Child: Component<...> = ({ c, d }) => {
     a; b; c; d;
@@ -77,7 +87,7 @@ const Parent: Component<...> = ({ a, b }) => {
 }
 
 //  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-import { Component } from 'solid-js'
+import type { Component } from 'solid-js'
 const Parent: Component<...> = props1 => {
   const Child: Component<...> = props2 => {
     props1.a; props1.b; props2.c; props2.d;
@@ -99,7 +109,7 @@ In both cases you can use the 'import as' syntax.
 Examples:
 
 ```tsx
-import { Component } from 'solid-js'
+import type { Component } from 'solid-js'
 
 const MyComponent: Component = // ...
 ```
@@ -111,7 +121,7 @@ const MyComponent: Solid.Component = // ...
 ```
 
 ```tsx
-import { Component as ComponentAlias } from 'solid-js'
+import type { Component as ComponentAlias } from 'solid-js'
 
 const MyComponent: ComponentAlias = // ...
 ```
@@ -119,7 +129,7 @@ const MyComponent: ComponentAlias = // ...
 This example won't work:
 
 ```tsx
-import { Component } from 'solid-js'
+import type { Component } from 'solid-js'
 
 type ComponentAlias = Component
 

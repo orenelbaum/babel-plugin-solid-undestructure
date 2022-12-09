@@ -6,7 +6,7 @@ import * as assert from 'uvu/assert'
 test('index', async () => {
    await testBasicCase()
 	await testAliasedCtf()
-	await testTypeAnnotation()
+	await testComponentTypeAnnotation()
 	await testAliasedTypeAnnotation()
 	await testDefaultProps()
    await testFallbackProps()
@@ -78,14 +78,14 @@ _props2 => {
 }
 
 
-async function testTypeAnnotation() {
+async function testComponentTypeAnnotation() {
 	const src =
-/*javascript*/`import { Component } from 'solid-js';
+/*javascript*/`import type { Component } from 'solid-js';
 const comp: Component = ({ a, b }) => {a; b;};
 const comp2: Component<T> = ({ a, b }) => {a; b;};`
 
 	const expectedOutput =
-/*javascript*/`import { Component } from 'solid-js';
+/*javascript*/`import type { Component } from 'solid-js';
 const comp: Component = _props => {
   _props.a;
   _props.b;
@@ -104,14 +104,40 @@ const comp2: Component<T> = _props2 => {
 }
 
 
+async function testParentComponentTypeAnnotation() {
+	const src =
+/*javascript*/`import type { ParentComponent } from 'solid-js';
+const comp: ParentComponent = ({ a, b }) => {a; b;};
+const comp2: ParentComponent<T> = ({ a, b }) => {a; b;};`
+
+	const expectedOutput =
+/*javascript*/`import type { ParentComponent } from 'solid-js';
+const comp: ParentComponent = _props => {
+  _props.a;
+  _props.b;
+};
+const comp2: ParentComponent<T> = _props2 => {
+  _props2.a;
+  _props2.b;
+};`
+
+	const res = await transformAsync(
+		src,
+		{ plugins: ["@babel/plugin-syntax-typescript", "./src/index.cjs"] }
+	)
+
+	assert.snapshot(res.code, expectedOutput, 'TS annotation.')
+}
+
+
 async function testAliasedTypeAnnotation() {
 	const src =
-/*javascript*/`import { Component, Component as Comp } from 'solid-js';
+/*javascript*/`import type { Component, Component as Comp } from 'solid-js';
 const comp: Component = ({ a, b }) => {a; b;};
 const comp2: Comp<T> = ({ a, b }) => {a; b;};`
 
 	const expectedOutput =
-/*javascript*/`import { Component, Component as Comp } from 'solid-js';
+/*javascript*/`import type { Component, Component as Comp } from 'solid-js';
 const comp: Component = _props => {
   _props.a;
   _props.b;
@@ -694,7 +720,7 @@ export const Parent: Component = _props => {
 		)
 	}
 	catch (e) {
-		assert.unreachable(e.message);
+		assert.unreachable(e.message)
 	}
 	assert.snapshot(res.code, expectedOutput, 'Nested components with type annotation')
 }

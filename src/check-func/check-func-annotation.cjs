@@ -6,7 +6,7 @@ const possibleAnnotationKinds = ['type', 'ctf', 'pragma']
 
 
 /**
- * Checks if the function is annotated with the `Component` type or the `component` CTF.
+ * Checks if the function is annotated with the `Component` or `ParentComponent` types or the `component` CTF.
  * @todo Add support for pragma annotations.
  */
 function checkFuncAnnotation(opts, path, state) {
