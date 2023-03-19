@@ -21,14 +21,16 @@ function checkTypeAnnotation(path) {
 		if (importSpecifier.type !== "ImportSpecifier") return false
 		if (
 			importSpecifier.imported.name !== "Component"
-			&& importSpecifier.imported.name !== "ParentComponent"
+      && importSpecifier.imported.name !== "ParentComponent"
+      && importSpecifier.imported.name !== "VoidComponent"
 		) return false
 		if (typeBinding.path.parent.source.value !== "solid-js") return false
 	}
 	else if (typeAnnotation.typeName.type === "TSQualifiedName") {
 		if (
 			typeAnnotation.typeName.right.name !== "Component"
-			&& typeAnnotation.typeName.right.name !== "ParentComponent"
+      && typeAnnotation.typeName.right.name !== "ParentComponent"
+      && typeAnnotation.typeName.right.name !== "VoidComponent"
 		) return false
 		const typeQualification = typeAnnotation.typeName.left
 		if (typeQualification.type !== "Identifier") return false

@@ -7,6 +7,8 @@ test('index', async () => {
    await testBasicCase()
 	await testAliasedCtf()
 	await testComponentTypeAnnotation()
+	await testParentComponentTypeAnnotation()
+	await testVoidComponentTypeAnnotation()
 	await testAliasedTypeAnnotation()
 	await testDefaultProps()
    await testFallbackProps()
@@ -117,6 +119,32 @@ const comp: ParentComponent = _props => {
   _props.b;
 };
 const comp2: ParentComponent<T> = _props2 => {
+  _props2.a;
+  _props2.b;
+};`
+
+	const res = await transformAsync(
+		src,
+		{ plugins: ["@babel/plugin-syntax-typescript", "./src/index.cjs"] }
+	)
+
+	assert.snapshot(res.code, expectedOutput, 'TS annotation.')
+}
+
+
+async function testVoidComponentTypeAnnotation() {
+	const src =
+/*javascript*/`import type { VoidComponent } from 'solid-js';
+const comp: VoidComponent = ({ a, b }) => {a; b;};
+const comp2: VoidComponent<T> = ({ a, b }) => {a; b;};`
+
+	const expectedOutput =
+/*javascript*/`import type { VoidComponent } from 'solid-js';
+const comp: VoidComponent = _props => {
+  _props.a;
+  _props.b;
+};
+const comp2: VoidComponent<T> = _props2 => {
   _props2.a;
   _props2.b;
 };`
