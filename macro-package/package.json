@@ -2,9 +2,9 @@
 	"name": "undestructure-macros",
 	"description": "A placeholder package for babel-plugin-solid-undestructure macros",
 	"version": "0.0.1",
-	"main": "src/index.js",
-   "module": "src/index.js",
-	"types": "src/index.d.ts",
+	"main": "index.js",
+   	"module": "index.js",
+	"types": "index.d.ts",
 	"type": "module",
 	"license": "MIT",
 	"repository": {
