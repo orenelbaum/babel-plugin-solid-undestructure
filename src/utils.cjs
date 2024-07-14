@@ -4,7 +4,7 @@ const { types } = require("@babel/core")
 module.exports.getDestructredProperties = funcPath => {
 	const firstParam = funcPath.node.params[0]
 
-	const objectPattern = firstParam.type == "AssignmentPattern"
+	const objectPattern = firstParam.type === "AssignmentPattern"
 		? firstParam.left
 		: firstParam
 	

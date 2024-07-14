@@ -174,6 +174,21 @@ const MyComponent = c(/* your component goes here. */)
 
 In this last example, `MyComponent` won't be transformed.
 
+## uppercaseFuncNames option
+
+By setting this option to `true`, the plugin will assume function with names that start with an uppercase letter are components and will transform them accordingly.
+
+This option is disabled by default.
+
+Example:
+
+```javascript
+const MyComponent = ({ a, b, c }) => { ... }
+```
+
+```javascript
+function MyComponent({ a, b, c }) { ... }
+```
 
 ## Installation and Configuring Vite
 
