@@ -95,9 +95,8 @@ const Parent: Component<...> = props1 => {
 }
 ```
 
-See also [undestructure-example](https://github.com/orenelbaum/undestructure-example) (or [Open in Stackblitz](https://stackblitz.com/github/orenelbaum/undestructure-example)).
-
-
+See also [undestructure-example](https://github.com/orenelbaum/undestructure-example) (or [Open in Stackblitz](https://stackblitz.com/github/orenelbaum/undestructure-example)) (or 
+[Open in Codeanywhere](https://app.codeanywhere.com/#https://github.com/orenelbaum/undestructure-example))
 ## `Component` Type Annotation
 
 When this option is enabled (it is enabled by default), the plugin transforms all arrow function components which are part of a variable declaration with a `Component` type annotation.
